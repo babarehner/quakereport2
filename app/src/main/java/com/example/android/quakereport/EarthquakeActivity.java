@@ -108,6 +108,11 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader, List<Earthquake> earthquakes) {
         Log.v(LOG_TAG, "onLoadFinished method");
+
+        // hide the load indicator progress bar
+        View loadIndicator = findViewById(R.id.load_progress);
+        loadIndicator.setVisibility(View.GONE);
+
         // Put this here to keep it from flashing????
         mEmptyStateTextView.setText(R.string.no_earthquakes);
 

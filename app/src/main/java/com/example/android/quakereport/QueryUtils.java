@@ -29,6 +29,16 @@ public final class QueryUtils {
     public static List<Earthquake> fetchEarthquakeData(String urlRequest){
         Log.v(LOG_TAG, "in fetchEarthquakeData method");
 
+        // make earthquake sleep fot 2 seconds to see if it will show progress bar
+        // for testing purposes
+        /**
+        try{
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+         **/
+
         // create URL object
         URL url = createUrl(urlRequest);
 
