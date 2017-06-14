@@ -17,8 +17,11 @@ package com.example.android.quakereport;
 
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -102,7 +105,22 @@ public class EarthquakeActivity extends AppCompatActivity implements LoaderCallb
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bundle) {
         Log.v(LOG_TAG, "onCreateLoader method");
 
-        return new EarthquakeLoader(this, USGS_REQUEST_URL);
+        // Check for network connectivity
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE) ;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        if ( isConnected ) {
+            return new EarthquakeLoader(this, USGS_REQUEST_URL);
+        } else {
+            // hide the load indicator progress bar
+            View loadIndicator = findViewById(R.id.load_progress);
+            loadIndicator.setVisibility(View.GONE);
+            mEmptyStateTextView.setText("No internet Connection");
+            return null;
+        }
+
+
     }
 
     @Override
